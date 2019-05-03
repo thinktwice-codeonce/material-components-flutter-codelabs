@@ -42,6 +42,27 @@ class _LoginPageState extends State<LoginPage> {
             // TODO: Wrap Password with AccentColorOverride (103)
             // TODO: Add TextField widgets (101)
             // TODO: Add button bar (101)
+            TextField(
+              style: TextStyle(color: Color(0xff009900)),
+              cursorColor: Color(0xffff0000),
+              decoration: InputDecoration(
+                filled: true,
+                labelText: 'Username',
+                hintText: 'Username hint',
+                hintStyle: TextStyle(color: Color(0x80b74093)),
+                counterText: 'Counter Text',
+                counterStyle: TextStyle(color: Color(0xFFaa0056))
+              ),
+            ),
+            //spacer
+            SizedBox(height: 12.0,),
+            TextField(
+              decoration: InputDecoration(
+                filled: true,
+                labelText: 'Password'
+              ),
+              obscureText: true,
+            )
           ],
         ),
       ),
