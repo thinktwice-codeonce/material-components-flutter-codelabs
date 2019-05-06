@@ -16,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'model/products_repository.dart';
 import 'model/product.dart';
+import 'supplemental/asymmetric_view.dart';
 
 class HomePage extends StatelessWidget {
   // TODO: Add a variable for Category (104)
@@ -55,12 +56,7 @@ class HomePage extends StatelessWidget {
           )
         ],
       ),
-      body: GridView.count(
-        crossAxisCount: 2,
-        padding: EdgeInsets.all(16.0),
-        childAspectRatio: 8.0 / 9.0,
-        children: _buildGridCards(context),
-      ),
+      body: AsymmetricView(products: ProductsRepository.loadProducts(Category.all),),
       resizeToAvoidBottomInset: false,
     );
   }
@@ -77,6 +73,7 @@ class HomePage extends StatelessWidget {
 
     return products.map((product) {
       return Card(
+        elevation: 2.0,
         clipBehavior: Clip.antiAlias,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,24 +87,29 @@ class HomePage extends StatelessWidget {
               ),
             ),
             Expanded(
-              child:
-                  Padding(padding: EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        product.name,
-                        style: theme.textTheme.title,
-                        maxLines: 1,
-                      ),
-                      SizedBox(height: 8.0,),
-                      Text(
-                        formatter.format(product.price),
-                        style: theme.textTheme.body2,
-                      ),
-                    ],
-                  ),),
-
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 8.0),
+                child: Column(
+                  children: <Widget>[
+                    Text(
+                      product == null ? '' : product.name,
+                      style: theme.textTheme.title,
+                      softWrap: false,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                    SizedBox(
+                      height: 8.0,
+                    ),
+                    Text(
+                      product == null ? '' : formatter.format(product.price),
+                      style: theme.textTheme.caption,
+                    ),
+                  ],
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                ),
+              ),
             ),
           ],
         ),

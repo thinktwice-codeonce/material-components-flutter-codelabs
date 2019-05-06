@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import 'package:flutter/material.dart';
+import 'colors.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -20,7 +21,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -34,49 +34,59 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(height: 80.0),
             Column(
               children: <Widget>[
-                Image.asset('assets/diamond.png'),
+                Image.asset(
+                  'assets/diamond.png',
+                  color: Color(0xff00ff00),),
                 SizedBox(height: 16.0),
                 Text('SHRINE'),
               ],
             ),
             SizedBox(height: 120.0),
             // TODO: Wrap Username with AccentColorOverride (103)
-            // TODO: Remove filled: true values (103)
             // TODO: Wrap Password with AccentColorOverride (103)
-            TextField(
-              style: TextStyle(color: Color(0xff009900)),
-              cursorColor: Color(0xffff0000),
-              decoration: InputDecoration(
-                filled: true,
-                labelText: 'Username',
-                hintText: 'Username hint',
-                hintStyle: TextStyle(color: Color(0x80b74093)),
-                counterText: 'Counter Text',
-                counterStyle: TextStyle(color: Color(0xFFaa0056))
+
+            AccentColorOverride(
+              color: Color(0xffff0000),
+              child: TextField(
+                style: TextStyle(color: Color(0xff009900)),
+                cursorColor: Color(0xffff0000),
+                decoration: InputDecoration(
+                    labelText: 'Username',
+                    hintText: 'Username hint',
+                    hintStyle: TextStyle(color: Color(0x80b74093)),
+                    counterText: 'Counter Text',
+                    counterStyle: TextStyle(color: Color(0xFFaa0056))),
+                controller: _usernameController,
               ),
-              controller: _usernameController,
             ),
             //spacer
-            SizedBox(height: 12.0,),
-            TextField(
-              decoration: InputDecoration(
-                filled: true,
-                labelText: 'Password'
+            SizedBox(
+              height: 12.0,
+            ),
+            AccentColorOverride(
+              color: kShrinePink400,
+              child: TextField(
+                decoration: InputDecoration(labelText: 'Password'),
+                obscureText: true,
+                controller: _passwordController,
               ),
-              obscureText: true,
-              controller: _passwordController,
             ),
             ButtonBar(
               children: <Widget>[
                 FlatButton(
                   child: Text('Cancel'),
+                  shape: BeveledRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(7.0))),
                   onPressed: () {
                     _usernameController.clear();
                     _passwordController.clear();
                   },
                 ),
                 RaisedButton(
+                  elevation: 20.0,
                   child: Text('Next'),
+                  shape: BeveledRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(7.0))),
                   onPressed: () {
                     Navigator.pop(context);
                   },
@@ -90,4 +100,20 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 
-// TODO: Add AccentColorOverride (103)
+class AccentColorOverride extends StatelessWidget {
+  AccentColorOverride({Key key, this.color, this.child}) : super(key: key);
+
+  final Color color;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Theme(
+      child: child,
+      data: Theme.of(context).copyWith(
+        accentColor: color,
+        brightness: Brightness.dark,
+      ),
+    );
+  }
+}
