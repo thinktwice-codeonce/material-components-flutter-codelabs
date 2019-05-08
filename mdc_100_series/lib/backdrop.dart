@@ -3,7 +3,6 @@ import 'package:meta/meta.dart';
 import 'model/product.dart';
 
 class Backdrop extends StatefulWidget {
-
   final Category currentCategory;
   final Widget frontLayer;
   final Widget backLayer;
@@ -30,7 +29,6 @@ class Backdrop extends StatefulWidget {
 
 class _BackdropState extends State<Backdrop>
     with SingleTickerProviderStateMixin {
-
   final double _kFlingVelocity = 2.0;
   AnimationController _controller;
   final GlobalKey _backdropKey = GlobalKey(debugLabel: 'Backdrop');
@@ -49,9 +47,7 @@ class _BackdropState extends State<Backdrop>
   void initState() {
     super.initState();
     _controller = AnimationController(
-        duration: Duration(microseconds: 300),
-        value: 1.0,
-        vsync: this);
+        duration: Duration(microseconds: 300), value: 1.0, vsync: this);
   }
 
   @override
@@ -62,13 +58,13 @@ class _BackdropState extends State<Backdrop>
 
   bool get _frontLayerVisible {
     final AnimationStatus animationStatus = _controller.status;
-    return animationStatus == AnimationStatus.completed
-        || animationStatus == AnimationStatus.forward;
+    return animationStatus == AnimationStatus.completed ||
+        animationStatus == AnimationStatus.forward;
   }
 
   void _toggleBackdropLayerVisibility() {
     _controller.fling(
-      velocity: _frontLayerVisible ? -_kFlingVelocity : _kFlingVelocity);
+        velocity: _frontLayerVisible ? -_kFlingVelocity : _kFlingVelocity);
   }
 
   Widget _buildStack(BuildContext context, BoxConstraints constraints) {
@@ -77,9 +73,10 @@ class _BackdropState extends State<Backdrop>
     final double layerTop = layerSize.height - layerTitleHeight;
 
     Animation<RelativeRect> layerAnimation = RelativeRectTween(
-      begin: RelativeRect.fromLTRB(0.0, layerTop, 0.0, layerTop - layerSize.height),
-      end: RelativeRect.fromLTRB(0, 0, 0, 0)
-    ).animate(_controller.view);
+            begin: RelativeRect.fromLTRB(
+                0.0, layerTop, 0.0, layerTop - layerSize.height),
+            end: RelativeRect.fromLTRB(0, 0, 0, 0))
+        .animate(_controller.view);
 
     return Stack(
       key: _backdropKey,
@@ -106,8 +103,7 @@ class _BackdropState extends State<Backdrop>
       elevation: 0.0,
       titleSpacing: 0.0,
       leading: IconButton(
-          icon: Icon(Icons.menu),
-          onPressed: _toggleBackdropLayerVisibility),
+          icon: Icon(Icons.menu), onPressed: _toggleBackdropLayerVisibility),
       title: Text('Shrine'),
       actions: <Widget>[
         IconButton(
@@ -166,5 +162,26 @@ class _FrontLayer extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class _BackdropTitle extends AnimatedWidget {
+  final Function onPress;
+  final Widget frontTitle;
+  final Widget backTitle;
+
+  const _BackdropTitle(
+      {Key key,
+      Listenable listenable,
+      this.onPress,
+      @required this.frontTitle,
+      @required this.backTitle})
+      : assert(frontTitle != null),
+        assert(backTitle != null),
+        super(key: key, listenable: listenable);
+
+  @override
+  Widget build(BuildContext context) {
+    return null;
   }
 }
